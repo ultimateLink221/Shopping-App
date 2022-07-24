@@ -1,11 +1,24 @@
 import { createContext, useState, useEffect } from "react";
 
-const CartContext = createContext(null);
+interface CartContextInterface {
+  cartPrice: number;
+  setCartPrice: any;
+  cartCount: number; 
+  setCartCount: any; 
+  cartItems: any[]; 
+  setCartItems: any; 
+  cartImage: string; 
+  setCartImage: any; 
+  handleCart: any; 
+  handleClearCart: any;
+}
 
-export const CartProvider = ({ children }) => {
+const CartContext = createContext<Partial<CartContextInterface>>({});
+
+export const CartProvider = ({ children }: any) => {
   const [cartPrice, setCartPrice] = useState(0);
   const [cartCount, setCartCount] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [cartImage, setCartImage] = useState('');
 
   useEffect(() => {
@@ -22,9 +35,9 @@ export const CartProvider = ({ children }) => {
     window.localStorage.setItem('CART_COUNT', JSON.stringify(cartCount));
   }, [cartPrice]);
 
-  const handleCart = (price) => {
+  const handleCart = (price: any) => {
     setCartCount(cartCount + 1);
-    setCartPrice((parseFloat(cartPrice) + parseFloat(price.app_sale_price)));
+    setCartPrice((parseFloat((cartPrice).toFixed(2)) + parseFloat(price.app_sale_price)));
     setCartItems([...cartItems, price]);
 
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function About(props) {
+function About() {
   return (
 <   div className='container mt-4' >
       <h1 style={{ textAlign: 'center' }} className='m-4 mt-4' >About Us</h1>

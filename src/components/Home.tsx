@@ -2,7 +2,7 @@ import React, { useState, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Media from 'react-media';
 
-function Home(props) {
+function Home() {
   const nav = useNavigate();
 
   const handleClick = () => {

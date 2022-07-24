@@ -3,11 +3,11 @@ import useCart from './hooks/useCart';
 import { useNavigate } from 'react-router-dom';
 import Media from 'react-media';
 
-function Checkout(props) {
+function Checkout() {
   const { cartPrice, cartCount, cartItems, setCartItems, setCartCount, setCartPrice, handleClearCart } = useCart();
   const nav = useNavigate();
 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any[] | undefined>([]);
 
   useEffect(() => {
     setItems(cartItems);
@@ -24,12 +24,15 @@ function Checkout(props) {
     setItems([]);
   }
 
-  const handleDelete = (id) => {
-    const deletedItem = cartItems.filter(item => item.product_id === id);
-    const newItems = cartItems.filter(item => item.product_id !== id);
+  const handleDelete = (id: number | string ) => {
+    const deletedItem = cartItems?.filter(item => item.product_id === id);
+    const newItems = cartItems?.filter(item => item.product_id !== id);
     setCartItems(newItems);
-    setCartCount(cartCount - 1);
-    setCartPrice((parseFloat(cartPrice) - parseFloat(deletedItem[0].app_sale_price)));
+    if(cartCount != undefined)
+      setCartCount(cartCount - 1);
+    if(deletedItem != undefined && cartPrice != undefined)
+      setCartPrice((parseFloat((cartPrice).toFixed(2)) - parseFloat(deletedItem[0].app_sale_price)));
+    // else alert('something went wrong please try again');
   }
 
   return (
@@ -47,7 +50,7 @@ function Checkout(props) {
             </tr>
           </thead>
           <tbody>
-          {items.map((item, index) => {
+          {items?.map((item, index) => {
             return (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
@@ -85,7 +88,7 @@ function Checkout(props) {
           </tbody>
         </table>
       </div>
-      <h3>Total price: ${(cartPrice).toFixed(2)}</h3>
+      <h3>Total price: ${(cartPrice)?.toFixed(2)}</h3>
       <h3>After Discount: $0.01</h3>
       <div style={{ textAlign: 'center'}}>
         <a onClick={handleClear} className="btn btn-primary mt-2">Clear Cart</a>

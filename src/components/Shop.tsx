@@ -3,7 +3,7 @@ import Card from './Card';
 import Data from '../TempBackend/tempBackend';
 import ReactPaginate from 'react-paginate';
 
-function Shop(props) {
+function Shop() {
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ function Shop(props) {
 
   const pageCount = Math.ceil(data?.length / cardsPerPage);
 
-  const changePage = ({selected}) => {
+  const changePage = ({selected}: any) => {
     setPageNumber(selected)
   }
 
@@ -48,11 +48,12 @@ function Shop(props) {
   return (
     <div className='m-3'>
       <div className="row row-cols-1 row-cols-md-4 g-4">
-        {data?.slice(pagesVisited, pagesVisited + cardsPerPage).map((card, index) => {
+        {data?.slice(pagesVisited, pagesVisited + cardsPerPage).map((card: any, index) => {
           return <Card key={index} product={card} productId={card.product_id} image={card.product_main_image_url} text={card.app_sale_price} title={card.product_title} />
         })}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        {/* @ts-ignore */}
         <ReactPaginate
           previousLabel={'Previous'}
           nextLabel={'Next'}
@@ -69,7 +70,7 @@ function Shop(props) {
           nextClassName={'page-item'}
           nextLinkClassName={'page-link'}
           activeClassName={'active'}
-          renderOnZeroPageCount={null}
+          renderOnZeroPageCount={() => null}
         />
       </div>
     </div>

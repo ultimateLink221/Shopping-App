@@ -3,12 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useCart from './hooks/useCart';
 import Media from 'react-media';
 
-function Product(props) {
+function Product() {
   const { cartImage, handleCart } = useCart();
   const params = useParams();
   const nav = useNavigate();
 
-  const [data, setData] = useState({});
+  interface IData {
+    [key: string]: any;
+  }
+
+  const [data, setData] = useState<IData>({});
   const [initialRender, setInitialRender] = useState(true);
   const [secondRender, setSecondRender] = useState(false);
 
@@ -42,7 +46,7 @@ function Product(props) {
     }
   }, [data]);
 
-  const handleNav = (data) => {
+  const handleNav = (data: IData) => {
     handleCart(data)
     nav('/Shop')
   }
